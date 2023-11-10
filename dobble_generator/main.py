@@ -48,12 +48,12 @@ while True:
   word = line.split()
   print(word[0])
 
-  cardMaker(int(line))
-  # try:
-  #   number = int(line)
-  #   cardMaker(number)
-  # except:
-  #   print("invalid")
+  # cardMaker(int(line))
+  try:
+    number = int(line)
+    cardMaker(number)
+  except:
+    print("invalid")
     
   print()
 
