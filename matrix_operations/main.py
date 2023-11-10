@@ -51,9 +51,12 @@ while True:
         reslist = list()
         mulcounter = 0
         result = 0
-        for i in x:
-          print(i, end=' ')
-        print()
+        for i in range(len(x)):
+          if i < len(x)-1:
+            print(x[i], end=' ')
+          else:
+            print(x[i])
+            
         for i in range(len(x)):
           if x[i]=='*':
 
@@ -85,9 +88,11 @@ while True:
               result = add(result, matdict[x[i+1]])
         
         for i in result:
-          for x in i:
-            print(x, end=' ')
-          print()
+          for x in range(len(i)):
+            if x < len(i)-1:
+              print(i[x], end=' ')
+            else:
+              print(i[x])
         print()
     
 
