@@ -1,4 +1,3 @@
-
 def pathfinder(mat, current, end, cools):
     cools.append(current)
     # set current field to block to not visit again
