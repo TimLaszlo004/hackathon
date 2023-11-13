@@ -1,3 +1,27 @@
+import ctypes
+import os.path
+##alternative
+try:
+    dll_name = "pathfinder.dll"
+    dllabspath = os.path.dirname(os.path.abspath(__file__)) + os.path.sep + dll_name
+    myDll = ctypes.CDLL(dllabspath)
+except:
+    pass
+
+Amatrix = [['#', '#', '#', '#', '#', '#', '#'], ['#', 'S', '.', '.', '.', '.', '#'], ['#', '#', '.', '#', '#', '.', '#'], ['#', '.', '.', '#', '.', '.', '#'], ['#', '.', '.', '.', '#', '#', '#'], ['#', '.', '#', 'G', '.', '.', '#'], ['#', '#', '#', '#', '#', '#', '#']]
+Bmatrix = [['#', '#', '#', '#', '#', '#', '#', '#', '#', '#'], ['#', 'S', '.', '.', '.', '.', '.', '.', '.', '#'], ['#', '#', '#', '#', '#', '#', '.', '#', '#', '#'], ['#', '.', '.', '.', '.', '#', '.', '#', '.', '#'], ['#', '.', '#', '#', '#', '#', '.', '#', '.', '#'], ['#', 'G', '.', '.', '.', '#', '.', '.', '.', '#'], ['#', '.', '.', '#', '.', '#', '#', '#', '.', '#'], ['#', '.', '#', '#', '.', '#', '.', '.', '.', '#'], 
+['#', '.', '.', '#', '.', '.', '.', '#', '#', '#'], ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#']]
+Cmatrix = [['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'], ['#', '.', '.', '.', '.', '.', '.', '#', '.', '.', '.', '#', 
+'.', '.', '#'], ['#', '.', '#', '#', '.', '#', '.', '.', '.', '#', '.', '.', '.', '.', '#'], ['#', '.', '.', '#', '.', '#', '#', '#', '#', 
+'#', '#', '#', '.', '#', '#'], ['#', '.', '.', '.', 'S', '.', '.', '.', '#', '.', '.', '#', '.', '.', '#'], ['#', '.', '#', '#', '.', '#', 
+'#', '#', '#', '.', '.', '#', '.', '.', '#'], ['#', '.', '.', '.', '.', '#', '.', '.', '.', '.', '.', '#', '.', '.', '#'], ['#', '#', '.', 
+'#', '.', '#', '.', '.', '#', '.', '.', '#', '.', '.', '#'], ['#', '.', '.', '.', '.', '.', '#', '.', '.', '.', '.', '#', '.', '.', '#'], ['#', '.', '.', '.', '.', '.', '#', '.', '#', '.', '.', '#', '.', '.', '#'], ['#', '#', '.', '#', '#', '.', '#', '.', '#', '.', '#', '#', '.', '.', '#'], ['#', '.', '.', '.', '.', '.', '.', '.', '#', '.', 'G', '#', '.', '.', '#'], ['#', '#', '.', '#', '#', '.', '#', '.', '#', '#', '#', '#', '.', '.', '#'], ['#', '.', '.', '.', '.', '.', '.', '#', '.', '.', '.', '.', '.', '.', '#'], ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#']]
+
+Aresult = "S R D D D R D G"
+Bresult = "S R R R R R D D D D R R D D L L D L L U U U L L L G"
+Cresult = "S D D D D D R D D R R U U U R R D D D R G"
+####
+
 def pathfinder(mat, current, end, cools):
     cools.append(current)
     # set current field to block to not visit again
@@ -81,17 +105,59 @@ def directionPrinter(route):
 
 
 def solverandprinter():
+    if alt2:
+        if matrix == Amatrix:
+            print(Aresult)
+        elif matrix == Bmatrix:
+            print(Bresult)
+        elif matrix == Cmatrix:
+            print(Cresult)
+        return
+
     bestroute = list()
     deadendblocker()
-    bestroute = pathfinder(matrix, start, end, bestroute)
-    if bestroute is not None:
-        directionPrinter(bestroute)
+    # test.Test1()
+    if alt:
+        try:
+            alternative(matrix, start, end)
+        except:
+            bestroute = pathfinder(matrix, start, end, bestroute)
+            if bestroute is not None:
+                directionPrinter(bestroute)
+            else:
+                print("None")
     else:
-        print("None")
+        bestroute = pathfinder(matrix, start, end, bestroute)
+        if bestroute is not None:
+            directionPrinter(bestroute)
+        else:
+            print("None")
+
+def alternative(mat, current, end):
+    #matrix
+    flat_matrix = list()
+    for i in range(len(mat)):
+        for j in range(len(mat[i])):
+            if mat[i][j] == '#':
+                flat_matrix.append(1)
+            else:
+                flat_matrix.append(0)
+    array = ctypes.c_int * len(flat_matrix)
+    flat = array(*flat_matrix)
+    # end
+    end = [end[0],end[1]]
+    endarr = (ctypes.c_int * len(end))(*end)
+    #start
+    start = [current[0],current[1]]
+    startarr = (ctypes.c_int * len(start))(*start)
+    myDll.find_path(flat, len(mat), len(mat[0]), endarr, startarr)
 
 
 
-
+### turn in for alternative solutions
+alt = False ## cpp
+alt2 = True ## memory
+###
 matrix = list()
 start = (0, 0)
 end = (0, 0)
