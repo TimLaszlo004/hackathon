@@ -52,12 +52,18 @@ def pathfinder(mat, current, end, cools):
         else:
             for i in neighbours:
                 # Create copies of cools and mat
-                cools_copy = cools.copy()
-                mat_copy = [row[:] for row in mat]
-                
-                res = pathfinder(mat_copy, i, end, cools_copy)
-                if res is not None:
-                    reslist.append(res)
+                if needstobeshortest:
+                    cools_copy = cools.copy()
+                    mat_copy = [row[:] for row in mat]
+                    
+                    res = pathfinder(mat_copy, i, end, cools_copy)
+                    if res is not None:
+                        reslist.append(res)
+                else:
+                    
+                    res = pathfinder(mat, i, end, cools)
+                    if res is not None:
+                        reslist.append(res)
 
         if len(reslist) == 0:
             return None
@@ -159,6 +165,7 @@ def alternative(mat, current, end):
 ## turn in for alternative solutions
 alt = False ## cpp
 alt2 = True ## memory
+needstobeshortest = True
 ####
 matrix = list()
 start = (0, 0)
