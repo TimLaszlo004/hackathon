@@ -154,10 +154,10 @@ def alternative(mat, current, end):
 
 
 
-### turn in for alternative solutions
+## turn in for alternative solutions
 alt = False ## cpp
 alt2 = True ## memory
-###
+####
 matrix = list()
 start = (0, 0)
 end = (0, 0)
