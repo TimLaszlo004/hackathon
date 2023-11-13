@@ -108,11 +108,13 @@ def solverandprinter():
     if alt2:
         if matrix == Amatrix:
             print(Aresult)
+            return
         elif matrix == Bmatrix:
             print(Bresult)
+            return
         elif matrix == Cmatrix:
             print(Cresult)
-        return
+            return
 
     bestroute = list()
     deadendblocker()
